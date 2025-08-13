@@ -1,0 +1,671 @@
+{
+	"info": {
+		"_postman_id": "hospital-management-system",
+		"name": "Hospital Management System",
+		"description": "Complete collection for Hospital Management System API with validation and error handling",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET Operations",
+			"item": [
+				{
+					"name": "Get All Hospitals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/findall",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"findall"
+							]
+						},
+						"description": "Retrieve all hospitals from the database"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Hospital by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/getbyid?id=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"getbyid"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Hospital ID to retrieve"
+								}
+							]
+						},
+						"description": "Retrieve a specific hospital by its ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Hospital by ID - Invalid ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/getbyid?id=999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"getbyid"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "999",
+									"description": "Non-existent Hospital ID"
+								}
+							]
+						},
+						"description": "Test error handling for non-existent hospital ID"
+					},
+					"response": []
+				}
+			],
+			"description": "All GET operations for retrieving hospital data"
+		},
+		{
+			"name": "POST Operations",
+			"item": [
+				{
+					"name": "Create Hospital - Valid Data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"hospitalName\": \"City General Hospital\",\n  \"hospitalAddress\": \"123 Main Street\",\n  \"hospitalCity\": \"New York\",\n  \"hospitalState\": \"NY\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"insert"
+							]
+						},
+						"description": "Create a new hospital with valid data"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Hospital - Missing Required Fields",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"hospitalName\": \"City General Hospital\",\n  \"hospitalAddress\": \"123 Main Street\"\n  // Missing hospitalCity and hospitalState\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"insert"
+							]
+						},
+						"description": "Test validation error when required fields are missing"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Hospital - Empty Strings",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"hospitalName\": \"\",\n  \"hospitalAddress\": \"123 Main Street\",\n  \"hospitalCity\": \"New York\",\n  \"hospitalState\": \"NY\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"insert"
+							]
+						},
+						"description": "Test validation error when hospital name is empty"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Hospital - Null Values",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"hospitalName\": null,\n  \"hospitalAddress\": \"123 Main Street\",\n  \"hospitalCity\": \"New York\",\n  \"hospitalState\": \"NY\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"insert"
+							]
+						},
+						"description": "Test validation error when hospital name is null"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Hospital - Wrong Content Type",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "hospitalName",
+									"value": "City General Hospital",
+									"type": "text"
+								},
+								{
+									"key": "hospitalAddress",
+									"value": "123 Main Street",
+									"type": "text"
+								},
+								{
+									"key": "hospitalCity",
+									"value": "New York",
+									"type": "text"
+								},
+								{
+									"key": "hospitalState",
+									"value": "NY",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"insert"
+							]
+						},
+						"description": "Test error when using form data instead of JSON"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Hospital - Form Data (Valid)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "hospitalName",
+									"value": "Community Medical Center",
+									"type": "text"
+								},
+								{
+									"key": "hospitalAddress",
+									"value": "456 Oak Avenue",
+									"type": "text"
+								},
+								{
+									"key": "hospitalCity",
+									"value": "Los Angeles",
+									"type": "text"
+								},
+								{
+									"key": "hospitalState",
+									"value": "CA",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"insert"
+							]
+						},
+						"description": "Create hospital using form data"
+					},
+					"response": []
+				}
+			],
+			"description": "All POST operations for creating hospital data"
+		},
+		{
+			"name": "PUT Operations",
+			"item": [
+				{
+					"name": "Update Hospital - Valid Data",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"hospitalName\": \"Updated City General Hospital\",\n  \"hospitalAddress\": \"123 Main Street, Suite 100\",\n  \"hospitalCity\": \"New York\",\n  \"hospitalState\": \"NY\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"update"
+							]
+						},
+						"description": "Update an existing hospital with valid data"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Hospital - Missing ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"hospitalName\": \"Updated City General Hospital\",\n  \"hospitalAddress\": \"123 Main Street, Suite 100\",\n  \"hospitalCity\": \"New York\",\n  \"hospitalState\": \"NY\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"update"
+							]
+						},
+						"description": "Test error when trying to update without ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Hospital - Non-existent ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 999,\n  \"hospitalName\": \"Non-existent Hospital\",\n  \"hospitalAddress\": \"123 Main Street\",\n  \"hospitalCity\": \"New York\",\n  \"hospitalState\": \"NY\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"update"
+							]
+						},
+						"description": "Test error when trying to update non-existent hospital"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Hospital - Invalid Data",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"hospitalName\": \"\",\n  \"hospitalAddress\": \"123 Main Street\",\n  \"hospitalCity\": \"New York\",\n  \"hospitalState\": \"NY\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"update"
+							]
+						},
+						"description": "Test validation error when updating with empty hospital name"
+					},
+					"response": []
+				}
+			],
+			"description": "All PUT operations for updating hospital data"
+		},
+		{
+			"name": "DELETE Operations",
+			"item": [
+				{
+					"name": "Delete Hospital by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/deletebyid?id=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"deletebyid"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Hospital ID to delete"
+								}
+							]
+						},
+						"description": "Delete a hospital by its ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Hospital - Invalid ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/deletebyid?id=999",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"deletebyid"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "999",
+									"description": "Non-existent Hospital ID"
+								}
+							]
+						},
+						"description": "Test error when trying to delete non-existent hospital"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Hospital - Null ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/deletebyid",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"deletebyid"
+							]
+						},
+						"description": "Test error when trying to delete without providing ID"
+					},
+					"response": []
+				}
+			],
+			"description": "All DELETE operations for removing hospital data"
+		},
+		{
+			"name": "Test Scenarios",
+			"item": [
+				{
+					"name": "Complete CRUD Flow Test",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"hospitalName\": \"Test Hospital for CRUD\",\n  \"hospitalAddress\": \"789 Test Street\",\n  \"hospitalCity\": \"Test City\",\n  \"hospitalState\": \"TS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"insert"
+							]
+						},
+						"description": "Step 1: Create a test hospital for CRUD operations"
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk Create Hospitals",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"hospitalName\": \"Memorial Hospital\",\n  \"hospitalAddress\": \"100 Memorial Drive\",\n  \"hospitalCity\": \"Chicago\",\n  \"hospitalState\": \"IL\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"insert"
+							]
+						},
+						"description": "Create additional test data"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Another Hospital",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"hospitalName\": \"Regional Medical Center\",\n  \"hospitalAddress\": \"200 Regional Blvd\",\n  \"hospitalCity\": \"Houston\",\n  \"hospitalState\": \"TX\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/insert",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"insert"
+							]
+						},
+						"description": "Create more test data"
+					},
+					"response": []
+				}
+			],
+			"description": "Test scenarios for comprehensive API testing"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Pre-request script to set up test data if needed",
+					"console.log('Pre-request script executed for: ' + pm.request.name);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Test script to validate responses",
+					"pm.test('Status code is 200 or 201 for successful operations', function () {",
+					"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+					"});",
+					"",
+					"pm.test('Response time is less than 2000ms', function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+					"});",
+					"",
+					"pm.test('Response has required headers', function () {",
+					"    pm.response.to.have.header('Content-Type');",
+					"});",
+					"",
+					"// Store response data for subsequent requests if needed",
+					"if (pm.response.code === 201 && pm.request.name.includes('Create')) {",
+					"    const responseJson = pm.response.json();",
+					"    if (responseJson && responseJson.id) {",
+					"        pm.collectionVariables.set('lastCreatedId', responseJson.id);",
+					"    }",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "lastCreatedId",
+			"value": "",
+			"type": "string"
+		}
+	]
+} 
