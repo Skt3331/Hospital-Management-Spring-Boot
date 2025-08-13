@@ -33,6 +33,16 @@ public class HospitalController {
         }
         return ResponseEntity.ok(hospital);
     }
+    @GetMapping("/getbyNameAndAddress")
+    public ResponseEntity<List<Hospital>> getHospitalsByNameAndAdress(@RequestParam("hospitalName") String name, @RequestParam("hospitalAddress") String adress)
+    {
+        if (name == null || adress == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        List<Hospital> listHospital = hospitalDao.getHospitalByNameAndAddress(adress, name);
+        return ResponseEntity.ok(listHospital);
+
+    }
 
     @GetMapping("/findall")
     public List<Hospital> getAllHospitals() {

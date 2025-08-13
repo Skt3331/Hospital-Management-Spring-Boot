@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface HospitalRepository extends JpaRepository<Hospital, Long> {
     List<Hospital> findByHospitalName(String name); // follow field name in entity
+    List<Hospital> findByHospitalNameAndHospitalAddress(String hospitalName, String hospitalAddress);
+
 }

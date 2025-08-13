@@ -98,4 +98,17 @@ public class HospitalDao {
         
         repo.deleteById(id);
     }
+
+    public List<Hospital> getHospitalByNameAndAddress(String name, String address) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Hospital name is required");
+
+        }
+        if (address == null || address.trim().isEmpty()) {
+            throw new IllegalArgumentException("Hospital address is required");
+        }
+        return repo.findByHospitalNameAndHospitalAddress(name, address);
+
+
+    }
 }
