@@ -103,7 +103,7 @@ public class HospitalDao {
     }
     public Page<Hospital> getallpage(Pageable pageable) {
         return repo.findAll(pageable);
-        )
+
     }
 
 

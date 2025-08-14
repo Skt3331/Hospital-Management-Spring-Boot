@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import jakarta.validation.Valid;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import Responce.ResponseStructure;
 
 import java.util.List;
 import java.util.HashMap;
@@ -36,6 +37,34 @@ public class HospitalController {
         }
         return ResponseEntity.ok(hospital);
     }
+    @GetMapping("/getbyidr")
+    public ResponseStructure<Hospital> getHospitalr(@RequestParam("id") Long id) {
+        ResponseStructure<Hospital> response = new ResponseStructure<>();
+        if (id == null) {
+            response.setMessage("id is null");
+            response.setStatusCode(HttpStatus.BAD_REQUEST.value());
+            response.setData(null);
+            return response;
+
+        }
+        Hospital hospital = hospitalDao.getHospital(id);
+        if (hospital == null) {
+            response.setMessage("hospital is null");
+            response.setStatusCode(HttpStatus.BAD_REQUEST.value());
+            response.setData(null);
+            return response;
+
+        }
+        response.setData(hospital);
+        response.setStatusCode(HttpStatus.OK.value());
+        response.setMessage("success");
+
+
+        return response;
+    }
+
+
+
     @GetMapping("/getbyNameAndAddress")
     public ResponseEntity<List<Hospital>> getHospitalsByNameAndAdress(@RequestParam("hospitalName") String name, @RequestParam("hospitalAddress") String adress)
     {
@@ -97,7 +126,7 @@ public class HospitalController {
             return ResponseEntity.badRequest().body("Error deleting hospital: " + e.getMessage());
         }
     }
-    @GetMapping("/getAll/{page}/{size}")
+    @GetMapping("/findall/{page}/{size}")
     public ResponseEntity<Page<Hospital>> getHospitals(@PathVariable int page, @PathVariable int size) {
         if (size <= 0) {
             return ResponseEntity.badRequest().build();
