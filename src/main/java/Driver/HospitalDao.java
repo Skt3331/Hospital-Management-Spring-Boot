@@ -1,6 +1,9 @@
 package Driver;
 
 import Entity.Hospital;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import Repository.HospitalRepository;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -98,6 +101,11 @@ public class HospitalDao {
         
         repo.deleteById(id);
     }
+    public Page<Hospital> getallpage(Pageable pageable) {
+        return repo.findAll(pageable);
+        )
+    }
+
 
     public List<Hospital> getHospitalByNameAndAddress(String name, String address) {
         if (name == null || name.trim().isEmpty()) {

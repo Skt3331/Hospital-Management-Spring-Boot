@@ -1,6 +1,9 @@
 package Driver;
 
 import Entity.Hospital;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -92,6 +95,20 @@ public class HospitalController {
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error deleting hospital: " + e.getMessage());
+        }
+    }
+    @GetMapping("/getAll/{page}/{size}")
+    public ResponseEntity<Page<Hospital>> getHospitals(@PathVariable int page, @PathVariable int size) {
+        if (size <= 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        try {
+            PageRequest pagable=PageRequest.of(page, size);
+           return ResponseEntity.ok(hospitalDao.getallpage(pagable));
+
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().build();
         }
     }
 
